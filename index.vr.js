@@ -11,161 +11,123 @@ import {
   PointLight,
   Model,
   Animated,
+  AmbientLight,
 } from 'react-vr';
-import Rocket from './vr/components/Rocket';
-import Pris from './vr/components/Prism'
 
-const places = [
-  {
-    title: '1',
-    image: 'pano1.jpg'
-  },
-  {
-    title: '2',
-    image: 'pano2.jpg'
-  },
-  {
-    title: '3',
-    image: 'pano3.jpg'
-  },
-  {
-    title: '4',
-    image: 'pano4.jpg'
-  }
+import Main from './vr/components/Main'
+import Rocket from './vr/components/Rocket'
 
-]
 
 
 class PrismGame extends React.Component {
   constructor(){
     super();
     this.state = {
-      showMenu: false,
-      place: 'pano1.jpg',
-      showDemo: false,
-
+      color: '#222',
+      showSign: true,
+      showPlay: false,
     }
+    var si = setInterval(() => {
+      let colors = ['#8e8e8e','#aaa','#fff','#555', '#383838','#1c1c1c','#0e0e0e','#474747','#222'];
+
+      let randomIndex = Math.floor(Math.random() *colors.length);
+      this.setState({showSign: !this.state.showSign, color: colors[randomIndex]})
+}, 200);
+
+  };
+  play(){
+    this.setState({showPlay: !this.state.showPlay})
   }
-  toggleMenu(){
-    this.setState({showMenu: !this.state.showMenu})
-  }
-  demo(){
-    this.setState({showDemo: !this.state.showDemo})
+
+  handleClick1 () {
+    console.log('blop');
+    this.setState({color: '#fff', showSign: true});
+    clearInterval(this.si);
   }
 
   render() {
+    let message = this.state.showSign === true ? 'Story of light': " ";
     return (
-      <View style={styles.container}>
+      <View>
 
-        <Pano source={asset(this.state.place)}></Pano>
-        <PointLight style={{color:'white', transform:[{translate:[0,0,0]}]}}/>
-
-        <Model
-          style={{transform:[{translate: [0,-0.2,-5]}, {rotateY: 45}]}}
-          source={{obj: asset('prism.obj'),mtl:asset('prism.mtl')}} lit={true}/>
-
-        <VrButton style={styles.menuButton} onClick={() => this.toggleMenu()}>
-          <Text style={styles.menuButtonText}>
-            {this.state.showMenu ? 'exit' : 'CHANGE YOUR SPACE'}
-          </Text>
-        </VrButton>
-        <VrButton style={styles.demo} onClick={() => this.demo()}>
-          <Text style={styles.menuButtonText}>Demo</Text>
-        </VrButton>
-          {
-            this.state.showDemo ?
-              <View>
-                {
-                  <Rocket />
-                }
-              </View>
-          :
+      {
+        this.state.showPlay ?
           <View>
+            {
+              <Main />
+            }
           </View>
-        }
-
-        {
-          this.state.showMenu ?
-            <View style={styles.menu}>
-              {
-                places.map((place, index) => {
-                  return (
-                    <VrButton style={styles.menuItem} key={index} onClick={() => this.setState({place: place.image })}>
-                      <Text style={styles.menuItemText}>{place.title}</Text>
-                    </VrButton>
-                  )
-                })
-              }
-            </View>
-        :
+      :
+      <View>
+      {
         <View>
+          <AmbientLight intensity={1} color="red" />
+          <PointLight style={{color: 'white', transform: [{translate: [0, 400, 700]}]}} />
+          <VrButton style={indexStyles.vrButton} onClick={this.handleClick1.bind(this)} >
+            <Text style={[{color: this.state.color}, indexStyles.intro]}>{message}</Text>
+          </VrButton>
+          <VrButton style={[{borderColor: this.state.color}, indexStyles.circleBtn]} onClick={() => this.play()}>
+            <Text style={indexStyles.circleBtnTxt}>
+              PLAY
+            </Text>
+          </VrButton>
         </View>
-        }
+      }
       </View>
-    );
+    }
+    </View>
+
+
+
+
+    )
   }
 };
 
-const styles = StyleSheet.create({
-  demo: {
-    padding: 0.1,
-    margin: 0.2,
-    width: 1,
-    height: 1,
-    borderRadius: 0.5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#b6b4b4',
-    transform: [
-      {translate: [5,5.3,-7.5]}
-    ]
-  },
-  container: {
-    alignItems: 'center',
-    layoutOrigin: [0.5, 0],
-  },
-  menuButton: {
-    padding: 0.1,
-    margin: 0.2,
-    backgroundColor: '#fff',
-    borderRadius: 0.5,
-    width: 1,
-    height: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    transform: [
-      {translate: [-5,4,-7.5]}
-    ]
-  },
-  menu: {
-    width: 5,
-    height: 1.25,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    transform: [
-      {translate: [0,5.5,-5]}
-    ]
-  },
-  menuButtonText: {
+const indexStyles = StyleSheet.create({
+  intro: {
     textAlign: 'center',
     justifyContent: 'center',
-    fontSize: 0.15,
-    color: '#222',
+    fontSize: 1,
+
   },
-  menuItem: {
-    alignItems: 'center',
+  vrButton: {
+    layoutOrigin: [0.5, 0.5],
+    padding: 0.2,
+    width: 7,
+    height: 2,
+    transform: [
+      {translate: [0,0.5,-7.5]}
+    ]
+  },
+  circleBtn: {
+    layoutOrigin: [0.5, 0.5],
+    padding: 0.2,
+    width: 2,
+    height: 2,
+    borderRadius: 2,
     justifyContent: 'center',
-    borderRadius: 0.5,
-    width: 0.5,
-    height: 0.5,
-    backgroundColor: '#fff'
+    alignItems: 'center',
+    borderStyle: 'solid',
+    borderWidth: 0.05,
+    transform: [
+      {translate: [0,0.7,-7.5]}
+    ]
   },
-  menuItemText: {
-    fontSize: 0.2,
+  circleBtnTxt: {
     textAlign: 'center',
-    color: '#222'
+    justifyContent: 'center',
+    color: '#8e8e8e',
+    fontSize: 0.5,
+    fontWeight:'100',
+    transform: [
+      {translate: [0,0.05,0]}
+    ]
   }
 })
+
+
+
+
 
 AppRegistry.registerComponent('PrismGame', () => PrismGame);
