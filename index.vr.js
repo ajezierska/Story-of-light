@@ -32,7 +32,7 @@ class PrismGame extends React.Component {
 
       let randomIndex = Math.floor(Math.random() *colors.length);
       this.setState({showSign: !this.state.showSign, color: colors[randomIndex]})
-}, 200);
+}, 500);
 
   };
   play(){
@@ -76,10 +76,6 @@ class PrismGame extends React.Component {
       </View>
     }
     </View>
-
-
-
-
     )
   }
 };

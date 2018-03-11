@@ -15,14 +15,12 @@ const style={
   backgroundColor: 'red',
   fontSize: 0.8,
   fontWeight: '400',
-  layoutOrigin: [0.5, 0.5],
   padding: 0.2,
-  margin:0.2,
   textAlign: 'center',
   textAlignVertical: 'center',
   width: '100px',
 
-  transform: [{translate: [1.5, 7, -8]}],
+  transform: [{translate: [0, 7, -8]}],
 }
 
 export default class Rocket extends Component {
