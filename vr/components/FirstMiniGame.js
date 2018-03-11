@@ -21,17 +21,17 @@ export default class FirstMiniGame extends React.Component {
       score: 0,
       specialIndex: 0,
       showShape: true,
-      time: 0,
+      time: 20,
+      saveScore: 0,
+      timeColor: '#ccc',
     }
   }
 
   componentDidMount(){
-
-
     AsyncStorage.getItem('score')
       .then(value => {
         console.log('score', value);
-        this.setState({score: value});
+        this.setState({saveScore: value});
       })
 
     // AsyncStorage.getItem('time')
@@ -42,21 +42,32 @@ export default class FirstMiniGame extends React.Component {
     //
     // AsyncStorage.setItem('time', time)
 
-
-
-    var si = setInterval(() => {
+    this.intervalID = setInterval(() => {
       this.setState({showShape: !this.state.showShape})
     }, 1000);
 
 
+      this.intervalTime = setInterval(() => {
+          if(this.state.time == 0){
+              this.setState({time: 20, score: 0, saveScore: this.state.score})
+          }else {
+            this.setState({time: this.state.time - 1});
+          }
 
-    var siTime = setInterval(() => {
-      this.setState({time: this.state.time + 1})
-    }, 1000);
+          if(this.state.time < 10){
+            this.setState({timeColor: 'red'})
+          }else {
+            this.setState({timeColor: 'white'})
+          }
+      }, 1000);
+
 
     this.newGameSet();
   }
-
+  componentWillUnmount(){
+   clearInterval(this.intervalID);
+   clearInterval(this.intervalTime);
+ }
 
   pickShape(shapeIndex) {
 
@@ -102,11 +113,16 @@ export default class FirstMiniGame extends React.Component {
       gameColors: newColors,
     });
 
-
-
     console.log(newColors);
     console.log(colors);
   }
+
+  // timeCheck(){
+  //   if (this.state.time <= 5) {
+  //       this.newGameSet()
+  //       console.log(this.state.time);
+  //   }
+  // }
 
   render() {
     return (
@@ -115,8 +131,10 @@ export default class FirstMiniGame extends React.Component {
 
         <SpotLight style={{color: 'white', transform: [{translate: [100, 400, 700]}]}} />
         <Text style={styles.text}>What is deifference ?</Text>
-        <Text style={styles.text}>{this.state.score}</Text>
-        <Text style={styles.text}>time: {this.state.time}</Text>
+        <Text style={[styles.text, {color: '#222', fontSize: 0.3}]}>your last score: {this.state.saveScore} ! be faster !</Text>
+        <Text style={[styles.text, {color: '#ccc', fontSize: 0.4 }]}>score: {this.state.score}</Text>
+
+        <Text style={[styles.text, {color: this.state.timeColor, fontSize: 0.4 }]}>time: {this.state.time}</Text>
 
         {
           this.state.gameShape.map((shape, index) => {
@@ -164,5 +182,8 @@ const styles = StyleSheet.create({
     transform: [
       {translate: [0,2,-5]}
     ]
+  },
+  alarmText: {
+    color: 'red',
   }
 })

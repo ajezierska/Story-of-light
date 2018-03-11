@@ -17,6 +17,7 @@ import Rocket from './Rocket';
 import Prism from './Prism';
 import FirstMiniGame from './FirstMiniGame';
 
+
 const places = [
   {
     title: '1',
@@ -63,7 +64,18 @@ export default class Main extends Component {
     return (
       <View style={styles.container}>
 
-        <Pano source={asset(this.state.place)}></Pano>
+      {
+        this.state.showFirstMiniGame ?
+          <View>
+            {
+            // <Pano source={asset('images.jpg')}></Pano>
+            }
+          </View>
+      :
+      <Pano source={asset(this.state.place)}></Pano>
+    }
+
+
         <PointLight style={{color:'white', transform:[{translate:[0,0,0]}]}}/>
 
         <VrButton style={styles.menuButton} onClick={() => this.toggleMenu()}>
