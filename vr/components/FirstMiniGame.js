@@ -34,14 +34,6 @@ export default class FirstMiniGame extends React.Component {
         this.setState({saveScore: value});
       })
 
-    // AsyncStorage.getItem('time')
-    //   .then(value => {
-    //     console.log('time', value);
-    //     this.setState({time: value});
-    //   })
-    //
-    // AsyncStorage.setItem('time', time)
-
     this.intervalID = setInterval(() => {
       this.setState({showShape: !this.state.showShape})
     }, 1000);
@@ -93,13 +85,13 @@ export default class FirstMiniGame extends React.Component {
     }
 
     let newGameShapes = [];
-    let newColors = [];
+
 
 
     for (let i = 0; i < this.state.gameShape.length; i++) {
       newGameShapes[i] = baseShapeId;
       let randomIndex = Math.floor(Math.random() * colors.length);
-      newColors[i] = randomIndex;
+
     }
 
     let specialIndex = Math.floor(Math.random() * newGameShapes.length)
@@ -110,19 +102,8 @@ export default class FirstMiniGame extends React.Component {
     this.setState({
       gameShape: newGameShapes,
       specialIndex: specialIndex,
-      gameColors: newColors,
     });
-
-    console.log(newColors);
-    console.log(colors);
   }
-
-  // timeCheck(){
-  //   if (this.state.time <= 5) {
-  //       this.newGameSet()
-  //       console.log(this.state.time);
-  //   }
-  // }
 
   render() {
     return (

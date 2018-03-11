@@ -47,7 +47,7 @@ export default class Main extends Component {
       place: 'pano1.jpg',
       showDemo: false,
       showFirstMiniGame: false,
-
+      showSecondMiniGame: false,
     }
   }
   toggleMenu(){
@@ -58,6 +58,9 @@ export default class Main extends Component {
   }
   firstMiniGame(){
     this.setState({showFirstMiniGame: !this.state.showFirstMiniGame})
+  }
+  secondMiniGame(){
+    this.setState({showSecondMiniGame: !this.state.showFirstMiniGame})
   }
 
   render() {
@@ -76,18 +79,25 @@ export default class Main extends Component {
     }
 
 
-        <PointLight style={{color:'white', transform:[{translate:[0,0,0]}]}}/>
+        <PointLight style={{color:'white', transform:[{translate:[5,0,0]}]}}/>
 
         <VrButton style={styles.menuButton} onClick={() => this.toggleMenu()}>
           <Text style={styles.menuButtonText}>
-            {this.state.showMenu ? 'exit' : 'CHANGE YOUR SPACE'}
+            {this.state.showMenu ? 'Exit' : 'CHANGE YOUR SPACE'}
           </Text>
         </VrButton>
         <VrButton style={styles.demo} onClick={() => this.demo()}>
-          <Text style={styles.menuButtonText}>Demo</Text>
+          <Text style={styles.menuButtonText}>Fire</Text>
         </VrButton>
         <VrButton style={styles.demo} onClick={() => this.firstMiniGame()}>
-          <Text style={styles.menuButtonText}>Shapes</Text>
+          <Text style={styles.menuButtonText}>
+            {this.state.showFirstMiniGame ? 'Exit' : 'Shapes'}
+          </Text>
+        </VrButton>
+        <VrButton style={styles.demo} onClick={() => this.secondMiniGame()}>
+          <Text style={styles.menuButtonText}>
+            {this.state.showSecondMiniGame ? 'Exit' : 'Prism'}
+          </Text>
         </VrButton>
           {
             this.state.showDemo ?
@@ -113,6 +123,19 @@ export default class Main extends Component {
         <View>
         </View>
       }
+      {
+        this.state.showSecondMiniGame ?
+          <View>
+            {
+              <View style={styles.secondGame}>
+                <Prism />
+              </View>
+            }
+          </View>
+      :
+      <View>
+      </View>
+    }
       {
         this.state.showMenu ?
           <View style={styles.menu}>
@@ -154,6 +177,13 @@ const styles = StyleSheet.create({
   firstGame: {
     transform: [
       {translate: [2,1,0]}
+    ]
+  },
+  secondGame: {
+    transform: [
+      {translate: [0,4,-2]},
+      // {rotateY: 5},
+      // {rotateZ: -15}
     ]
   },
   container: {
