@@ -40,7 +40,7 @@ class PrismGame extends React.Component {
   }
 
   handleClick1 () {
-    console.log('blop');
+    console.log('blee');
     this.setState({color: '#fff', showSign: true});
     clearInterval(this.si);
   }

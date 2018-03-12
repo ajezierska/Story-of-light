@@ -28,11 +28,10 @@ export default class FirstMiniGame extends React.Component {
   }
 
   componentDidMount(){
-    AsyncStorage.getItem('score')
-      .then(value => {
-        console.log('score', value);
-        this.setState({saveScore: value});
-      })
+    AsyncStorage.getItem('score').then((value) =>{
+      console.log('score', value);
+      this.setState({saveScore: value});
+    })
 
     this.intervalID = setInterval(() => {
       this.setState({showShape: !this.state.showShape})
@@ -53,8 +52,8 @@ export default class FirstMiniGame extends React.Component {
           }
       }, 1000);
 
+      this.newGameSet();
 
-    this.newGameSet();
   }
   componentWillUnmount(){
    clearInterval(this.intervalID);
@@ -63,13 +62,12 @@ export default class FirstMiniGame extends React.Component {
 
   pickShape(shapeIndex) {
 
-    let score = this.state.score;
-
-    score = this.state.specialIndex === shapeIndex ? score + 1 : score - 1 ;
+    let score = this.state.score
+    score = this.state.specialIndex === shapeIndex ? score + 1 : score - 1
 
     this.setState({score});
-
     AsyncStorage.setItem('score', score)
+
 
     this.newGameSet();
   }

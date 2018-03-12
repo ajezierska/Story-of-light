@@ -11,6 +11,7 @@ import {
   PointLight,
   Model,
   Animated,
+  AsyncStorage,
 } from 'react-vr';
 
 import Rocket from './Rocket';
@@ -60,7 +61,7 @@ export default class Main extends Component {
     this.setState({showFirstMiniGame: !this.state.showFirstMiniGame})
   }
   secondMiniGame(){
-    this.setState({showSecondMiniGame: !this.state.showFirstMiniGame})
+    this.setState({showSecondMiniGame: !this.state.showSecondMiniGame})
   }
 
   render() {
