@@ -12,3 +12,5 @@ Application was
 made with use of **React VR**.
 
 ---
+
+You can play [Story of light](github.com/ajezierska/Story-of-light).
